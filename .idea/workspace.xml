@@ -4,7 +4,16 @@
     <bookmark url="file://$PROJECT_DIR$/css/style.css" description=".send_message .message_date{" line="1112" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ffb94ab-ce06-404e-a335-a939d35c053e" name="Default" comment="" />
+    <list default="true" id="5ffb94ab-ce06-404e-a335-a939d35c053e" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chat.php" beforeDir="false" afterPath="$PROJECT_DIR$/chat.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database.php" beforeDir="false" afterPath="$PROJECT_DIR$/database.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/chat.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/chat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrate.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrate.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/svg/back.svg" beforeDir="false" afterPath="$PROJECT_DIR$/svg/back.svg" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,65 +26,26 @@
       <file leaf-file-name="chat.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chat.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="37" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="37" />
+            <state relative-caret-position="68">
+              <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/css/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="1472" column="29" selection-start-line="1472" selection-start-column="29" selection-end-line="1472" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="database.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/database.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1258">
-              <caret line="74" column="29" lean-forward="true" selection-start-line="74" selection-start-column="29" selection-end-line="74" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="chat.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="chat.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/chat.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="409" column="31" lean-forward="true" selection-start-line="409" selection-start-column="31" selection-end-line="409" selection-end-column="31" />
-              <folding>
-                <marker date="1547636303351" expanded="true" signature="11896:13652" ph="..." />
-              </folding>
+            <state relative-caret-position="281">
+              <caret line="411" column="22" selection-start-line="411" selection-start-column="22" selection-end-line="411" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="left_menu.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/left_menu.php">
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="15" column="41" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="settings.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/settings.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="41" column="55" selection-end-line="47" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="user.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="2" lean-forward="true" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
+            <state relative-caret-position="226">
+              <caret line="438" lean-forward="true" selection-start-line="438" selection-end-line="438" />
             </state>
           </provider>
         </entry>
@@ -91,36 +61,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>unreade</find>
-      <find>send_message</find>
-      <find>show_single_user</find>
-      <find>check_new_message</find>
-      <find>show_chat</find>
-      <find>see_message</find>
-      <find>see</find>
-      <find>see_all_ms</find>
-      <find>before</find>
-      <find>message_date</find>
-      <find>refresh_message_style</find>
-      <find>update</find>
-      <find>update_user</find>
-      <find>show_chat_new_message</find>
-      <find>heart</find>
-      <find>20%</find>
-      <find>test_settings</find>
-      <find>background-position</find>
-      <find>settings_setting_name</find>
-      <find>settings_right_bar</find>
-      <find>preg</find>
-      <find>setting_name</find>
-      <find>settings_shared_photos_item</find>
-      <find>/images/</find>
       <find>settings.php</find>
       <find>on(</find>
       <find>.name_part</find>
       <find>settings</find>
       <find>show_image_popup</find>
       <find>message_image_item</find>
+      <find>$application</find>
+      <find>settings_shared_files</find>
+      <find>settings_shared_file</find>
+      <find>15px</find>
+      <find>span</find>
+      <find>change_send_button</find>
+      <find>file</find>
+      <find>$files_pack</find>
+      <find>$file</find>
+      <find>check</find>
+      <find>settings_shared_photos_item</find>
+      <find>get_messages_by_packet</find>
+      <find>console.log</find>
+      <find>popup</find>
+      <find>audio</find>
+      <find>$('body')</find>
+      <find>load</find>
+      <find>settings_setting_name</find>
+      <find>settings_list_item</find>
+      <find>block_user</find>
+      <find>::BEFORE</find>
+      <find>settings_right_bar</find>
+      <find>80px</find>
+      <find>#message_content</find>
     </findStrings>
     <replaceStrings>
       <replace>#message_content</replace>
@@ -138,12 +108,17 @@
       <replace>send_items</replace>
       <replace>userpagephp</replace>
       <replace>user.php</replace>
+      <replace>$photos_pack</replace>
+      <replace>$photo</replace>
+      <replace>body</replace>
     </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/svg/add_new_post.svg" />
         <option value="$PROJECT_DIR$/svg/message.svg" />
         <option value="$PROJECT_DIR$/svg/messenger.svg" />
         <option value="$PROJECT_DIR$/svg/online.svg" />
@@ -153,7 +128,6 @@
         <option value="$PROJECT_DIR$/svg/group.svg" />
         <option value="$PROJECT_DIR$/svg/file_blue.svg" />
         <option value="$PROJECT_DIR$/svg/audio_blue.svg" />
-        <option value="$PROJECT_DIR$/svg/back.svg" />
         <option value="$PROJECT_DIR$/svg/search.svg" />
         <option value="$PROJECT_DIR$/svg/feed.svg" />
         <option value="$PROJECT_DIR$/svg/feed_active.svg" />
@@ -163,7 +137,6 @@
         <option value="$PROJECT_DIR$/svg/messenger_active.svg" />
         <option value="$PROJECT_DIR$/svg/online_active.svg" />
         <option value="$PROJECT_DIR$/new_post.php" />
-        <option value="$PROJECT_DIR$/js/script.js" />
         <option value="$PROJECT_DIR$/svg/heart_like.svg" />
         <option value="$PROJECT_DIR$/svg/heart_liked.svg" />
         <option value="$PROJECT_DIR$/index.php" />
@@ -182,18 +155,21 @@
         <option value="$PROJECT_DIR$/svg/image_dark.svg" />
         <option value="$PROJECT_DIR$/svg/file_dark.svg" />
         <option value="$PROJECT_DIR$/svg/video_dark.svg" />
-        <option value="$PROJECT_DIR$/migrate.php" />
         <option value="$PROJECT_DIR$/svg/audio_dark.svg" />
         <option value="$PROJECT_DIR$/svg/audio.svg" />
         <option value="$PROJECT_DIR$/svg/file.svg" />
         <option value="$PROJECT_DIR$/svg/image.svg" />
         <option value="$PROJECT_DIR$/header.php" />
-        <option value="$PROJECT_DIR$/database.php" />
         <option value="$PROJECT_DIR$/user.php" />
         <option value="$PROJECT_DIR$/left_menu.php" />
+        <option value="$PROJECT_DIR$/js/script.js" />
+        <option value="$PROJECT_DIR$/migrate.php" />
+        <option value="$PROJECT_DIR$/svg/back.svg" />
+        <option value="$PROJECT_DIR$/svg/dots.svg" />
+        <option value="$PROJECT_DIR$/database.php" />
+        <option value="$PROJECT_DIR$/css/style.css" />
         <option value="$PROJECT_DIR$/chat.php" />
         <option value="$PROJECT_DIR$/js/chat.js" />
-        <option value="$PROJECT_DIR$/css/style.css" />
       </list>
     </option>
   </component>
@@ -214,6 +190,7 @@
     <option name="width" value="1382" />
     <option name="height" value="744" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -318,16 +295,18 @@
       <workItem from="1547533001902" duration="2871000" />
       <workItem from="1547554536650" duration="599000" />
       <workItem from="1547618623476" duration="15895000" />
-      <workItem from="1547654913246" duration="1598000" />
+      <workItem from="1547654913246" duration="3060000" />
+      <workItem from="1547735615761" duration="4874000" />
+      <workItem from="1547794643488" duration="14838000" />
+      <workItem from="1547833131491" duration="11723000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="454392000" />
+    <option name="totallyTimeSpent" value="487289000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
     <layout>
       <window_info content_ui="combo" id="Project" order="2" visible="true" weight="0.21633889" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -335,10 +314,10 @@
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.32838285" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.32838285" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.32817337" />
       <window_info id="Favorites" order="1" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -353,19 +332,19 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.21331316" />
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.32972136" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info id="Favorites" order="1" side_tool="true" />
@@ -383,10 +362,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/svg/user.svg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Temp/Rar$DIa0.383/left_menu.php" />
     <entry file="file://$PROJECT_DIR$/svg/user_active.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -508,13 +483,6 @@
     <entry file="file://$PROJECT_DIR$/svg/video_dark.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/migrate.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="2" lean-forward="true" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/svg/audio_blue.svg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -550,17 +518,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="52" selection-start-line="4" selection-start-column="52" selection-end-line="4" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/user.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
-          <caret line="6" column="2" lean-forward="true" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
+          <caret line="6" column="2" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
         </state>
       </provider>
     </entry>
@@ -571,17 +532,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/chat.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="37" selection-start-line="23" selection-start-column="16" selection-end-line="23" selection-end-column="37" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/svg/dots.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/svg/back.svg">
+      <provider selected="true" editor-type-id="images" />
     </entry>
     <entry file="file://$PROJECT_DIR$/database.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1258">
-          <caret line="74" column="29" lean-forward="true" selection-start-line="74" selection-start-column="29" selection-end-line="74" selection-end-column="29" />
+        <state relative-caret-position="102">
+          <caret line="270" column="10" lean-forward="true" selection-start-line="270" selection-start-column="10" selection-end-line="270" selection-end-column="10" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migrate.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="47" selection-start-line="12" selection-start-column="47" selection-end-line="12" selection-end-column="47" />
         </state>
       </provider>
     </entry>
@@ -592,20 +563,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/chat.js">
+    <entry file="file://$PROJECT_DIR$/js/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="409" column="31" lean-forward="true" selection-start-line="409" selection-start-column="31" selection-end-line="409" selection-end-column="31" />
-          <folding>
-            <marker date="1547636303351" expanded="true" signature="11896:13652" ph="..." />
-          </folding>
+        <state relative-caret-position="116">
+          <caret line="35" column="16" lean-forward="true" selection-start-line="35" selection-start-column="16" selection-end-line="35" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="1472" column="29" selection-start-line="1472" selection-start-column="29" selection-end-line="1472" selection-end-column="29" />
+        <state relative-caret-position="226">
+          <caret line="438" lean-forward="true" selection-start-line="438" selection-end-line="438" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/chat.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="58" lean-forward="true" selection-start-line="58" selection-end-line="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/chat.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="281">
+          <caret line="411" column="22" selection-start-line="411" selection-start-column="22" selection-end-line="411" selection-end-column="22" />
         </state>
       </provider>
     </entry>

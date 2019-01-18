@@ -47,9 +47,6 @@ $(document).ready(function () {
         });
     });
 
-
-    $('.people_online_info::after').html('fwefew');
-
     var send_online_request = function () {
         let data = {'update_action':true};
         $.ajax({

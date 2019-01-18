@@ -1,16 +1,66 @@
 jQuery(document).ready(function () {
+
     var fileArray = new FormData();
+    var body = $('body');
     refresh_message_style();
     remove_empty_divs();
+
     $('.message_image_item').css('height', $('.message_image_item').eq(0).css('width'));
+
+    $('div#settings_load_new_files_div').on('click', function () {
+        var last_file_ms_id = parseInt($('.settings_shared_files').find('.settings_shared_files_item_div').last().attr('data-message-id'));
+        const urlParams = new URLSearchParams(window.location.search);
+        const get_id = parseInt(urlParams.get('user_id'));
+        var data = {last_ms_id: last_file_ms_id, load_new_files: true, user_id: get_id};
+        $.ajax({
+            url: 'database.php',
+            data: data,
+            type: 'POST',
+            success: function (response) {
+                response = JSON.parse(response);
+                if(response.content){
+                    $('.settings_shared_files').find('.settings_shared_files_item_div').last().after(response.content);
+                }
+
+                if(!response.see_more){
+                    $('#settings_load_new_files_div').remove();
+                }
+            }
+        });
+    });
+
+    $('div#settings_load_new_photos_div').on('click', function () {
+        var last_photo_ms_id = parseInt($('.settings_shared_photos').find('.settings_shared_photos_item').last().attr('data-message-id'));
+        const urlParams = new URLSearchParams(window.location.search);
+        const get_id = parseInt(urlParams.get('user_id'));
+        var data = {last_ms_id: last_photo_ms_id, load_new_photos: true, user_id: get_id};
+        $.ajax({
+            url: 'database.php',
+            data: data,
+            type: 'POST',
+            success: function (response) {
+                response = JSON.parse(response);
+                if(response.content){
+                    $('.settings_shared_photos').find('.settings_shared_photos_item').last().after(response.content);
+                }
+
+                if(!response.see_more){
+                    $('#settings_load_new_photos_div').remove();
+                }
+            }
+        });
+    });
+
     $(window).on('resize', function () {
         $('.message_image_item').css('height', $('.message_image_item').eq(0).css('width'));
         $('.settings_shared_photos_item').css('height', $('.settings_shared_photos_item').eq(0).css('width'));
     });
-    $('.settings_shared_photos_item').on('load',function () {
-        $(this).css('height', $(this).eq(0).css('width'));
+
+    $('.settings_shared_photos_item').on('load', function () {
+        $('.settings_shared_photos_item').css('height', $(this).css('width'));
     });
-    $('body').on('click', '.remove_image_button', function () {
+
+    body.on('click', '.remove_image_button', function () {
         let removed_item = $(this).parents('.message_single_image_main_div');
         let item_index = removed_item.attr('data-file-index');
         fileArray.delete(item_index);
@@ -173,10 +223,10 @@ jQuery(document).ready(function () {
                             $('.message_image_item').css('height', $('.message_image_item').eq(0).css('width'));
                             $(".message_content").animate({scrollTop: $('.message_content').prop("scrollHeight")}, 1000);
                             var show_chat_new_message = response.show_chat_new_message;
-                            if($('div[data-user-id="'+show_chat_new_message.user_id+'"]').hasClass('active_chat_user')){
+                            if ($('div[data-user-id="' + show_chat_new_message.user_id + '"]').hasClass('active_chat_user')) {
                                 show_chat_new_message.content = $(show_chat_new_message.content).addClass('active_chat_user');
                             }
-                            $('div[data-user-id="'+show_chat_new_message.user_id+'"]').remove();
+                            $('div[data-user-id="' + show_chat_new_message.user_id + '"]').remove();
                             $('.chat_users').prepend(show_chat_new_message.content);
                             change_send_button();
                             refresh_message_style();
@@ -238,7 +288,7 @@ jQuery(document).ready(function () {
     setInterval(function () {
         const urlParams = new URLSearchParams(window.location.search);
         const get_id = urlParams.get('user_id');
-        let last_message_id = $('[data-message-id]').last().attr('data-message-id');
+        let last_message_id = $('#message_content').find('[data-message-id]').last().attr('data-message-id');
         var data = {'check_new_message': true, 'last-message-id': last_message_id, 'send_id': get_id};
         $.ajax({
             url: 'database.php',
@@ -257,7 +307,7 @@ jQuery(document).ready(function () {
                     refresh_message_style();
                     remove_empty_divs();
                     check_new_ms();
-                    var data = {'see_all_ms': true,'send_id': get_id};
+                    var data = {'see_all_ms': true, 'send_id': get_id};
                     $.ajax({
                         url: 'database.php',
                         data: data,
@@ -273,39 +323,13 @@ jQuery(document).ready(function () {
     }, 1000);
 
     setInterval(check_new_ms, 1000);
-    function check_new_ms() {
-        let data = {'check_chat_new_message': true};
-        const urlParams = new URLSearchParams(window.location.search);
-        const get_id = urlParams.get('user_id');
-        $.ajax({
-            url: 'database.php',
-            data: data,
-            type: 'POST',
-            success: function (response) {
-                var response = JSON.parse(response);
-                if(response.status){
-                    var users = response.users;
-                    for (var i = 0;i < users.length; i++){
-                        var user_id = users[i]['user_id'];
-                        var user_content = users[i]['user_content']['content'];
-                        if(parseInt($('div[data-user-id="'+user_id+'"]').find('.ms_unreaded_count').text()) !== parseInt($(user_content).find('.ms_unreaded_count').text()) || parseInt(user_id) ==parseInt(get_id)) {
-                            if($('div[data-user-id="'+user_id+'"]').hasClass('active_chat_user')){
-                                user_content = $(user_content).addClass('active_chat_user');
-                            }
-                            $('div[data-user-id="' + user_id + '"]').remove();
-                            $('.chat_users').prepend($(user_content));
-                        }
-                    }
-                }
-            }
-        });
-    }
+
     $('#message_content').scroll(function (e) {
         var pos = $('#message_content').scrollTop();
         if (pos === 0) {
             const urlParams = new URLSearchParams(window.location.search);
             const get_id = urlParams.get('user_id');
-            var last_id = $('#message_content').children().first().find('[data-message-id]').eq(0).attr('data-message-id');
+            var last_id = $('#message_content').find('[data-message-id]').first().attr('data-message-id');
             var data = {'user_id': get_id, 'last_id': last_id, 'limit': 20, 'upload_new_message': true};
             $.ajax({
                 url: 'database.php',
@@ -331,40 +355,95 @@ jQuery(document).ready(function () {
         }
     });
 
-    $('.chat_settings_icon').on('click',function () {
+    $('.chat_settings_icon').on('click', function () {
         $('.settings_right_bar').removeClass('fadeOutRight');
         $('.settings_right_bar').addClass('fadeInRight');
     });
 
-    $('.settings_submenu_header').on('click',function () {
-       if($(this).find('.settings_submenu_header_arrow').hasClass('rotated')){
-           $(this).find('.settings_submenu_header_arrow').removeClass('rotated');
-       } else{
-           $(this).find('.settings_submenu_header_arrow').addClass('rotated');
-       }
+    $('.settings_submenu_header').on('click', function () {
+        if ($(this).find('.settings_submenu_header_arrow').hasClass('rotated')) {
+            $(this).find('.settings_submenu_header_arrow').removeClass('rotated');
+        } else {
+            $(this).find('.settings_submenu_header_arrow').addClass('rotated');
+        }
     });
 
-    $('.chat_settings_icon').on('click',function () {
+    $('.chat_settings_icon').on('click', function () {
         let right_bar = $('.settings_right_bar');
         right_bar.removeClass('display_none');
         right_bar.addClass('fadeInRight');
     });
 
-    $('.close_settings_right_bar').on('click',function () {
+    $('.close_settings_right_bar').on('click', function () {
         $('.settings_right_bar').removeClass('fadeInRight');
         $('.settings_right_bar').addClass('fadeOutRight');
     });
 
-    $('body').on('click','.message_image_item',function () {
+    body.on('click','.message_image_item,.settings_shared_photos_item.photo_item ',function () {
         $('.show_image_popup').removeClass('display_none');
         $('.show_image_popup').removeClass('fadeOutUp');
         $('.show_image_popup').addClass('fadeInDown');
-        $('.popup_image_container').css('background-image',$(this).css('background-image'));
+        $('.popup_image_container').empty();
+        $('.popup_image_container').css('background-image', $(this).css('background-image'));
     });
 
-    $('body').on('click','.show_image_popup_close',function () {
+    body.on('click','.settings_shared_photos_item.video_item ',function () {
+        $('.show_image_popup').removeClass('display_none');
+        $('.show_image_popup').removeClass('fadeOutUp');
+        $('.show_image_popup').addClass('fadeInDown');
+        $('.popup_image_container').css('background-image', 'none');
+        $('.popup_image_container').html('<video controls><source src="'+$(this).find('source').attr('src')+'"></video>');
+    });
+
+    body.on('click','.show_image_popup_close',function () {
         $('.show_image_popup').addClass('fadeOutUp');
     });
+
+
+    body.on('click', '.user_search_item_div,.user_item_div',function (e) {
+        let href = $(this).find('.name_part a').attr('href');
+        window.location = href;
+    });
+
+    $('#submit_block_user_form').on('click',function () {
+        $('#block_user_form').submit();
+    });
+
+    $('.back_icon_div .back_icon').on('click',function () {
+        $('#message_area').addClass('d-none');
+        $('.users_list').removeClass('d-none');
+    });
+
+    $('.message_textarea').on('input', change_send_button);
+
+
+    function check_new_ms() {
+        let data = {'check_chat_new_message': true};
+        const urlParams = new URLSearchParams(window.location.search);
+        const get_id = urlParams.get('user_id');
+        $.ajax({
+            url: 'database.php',
+            data: data,
+            type: 'POST',
+            success: function (response) {
+                var response = JSON.parse(response);
+                if (response.status) {
+                    var users = response.users;
+                    for (var i = 0; i < users.length; i++) {
+                        var user_id = users[i]['user_id'];
+                        var user_content = users[i]['user_content']['content'];
+                        if (parseInt($('div[data-user-id="' + user_id + '"]').find('.ms_unreaded_count').text()) !== parseInt($(user_content).find('.ms_unreaded_count').text()) || parseInt(user_id) == parseInt(get_id)) {
+                            if ($('div[data-user-id="' + user_id + '"]').hasClass('active_chat_user')) {
+                                user_content = $(user_content).addClass('active_chat_user');
+                            }
+                            $('div[data-user-id="' + user_id + '"]').remove();
+                            $('.chat_users').prepend($(user_content));
+                        }
+                    }
+                }
+            }
+        });
+    }
 
     function refresh_message_style() {
         $('.send_message , .get_message').each(function () {
@@ -400,17 +479,10 @@ jQuery(document).ready(function () {
         });
     }
 
-    function remove_empty_divs(){
+    function remove_empty_divs() {
         $('.send_message:empty').remove();
         $('.get_message_content:empty').parents('.get_message').remove();
     }
-
-    $('body').on('click','.user_search_item_div,.user_item_div',function (e) {
-        let href = $(this).find('.name_part a').attr('href');
-        window.location = href;
-    });
-
-    $('.message_textarea').on('input', change_send_button);
 
     function change_send_button(file_upload = false) {
         var input_text = $('.message_textarea').val();
@@ -423,110 +495,109 @@ jQuery(document).ready(function () {
         }
     }
 
-});
+    function makeid() {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
+        for (var i = 0; i < 5; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
 
-function makeid() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        return text;
+    }
 
-    for (var i = 0; i < 5; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    function getOrientation(file, callback) {
+        var reader = new FileReader();
 
-    return text;
-}
+        reader.onload = function (event) {
+            var view = new DataView(event.target.result);
 
-function getOrientation(file, callback) {
-    var reader = new FileReader();
+            if (view.getUint16(0, false) != 0xFFD8) return callback(-2);
 
-    reader.onload = function (event) {
-        var view = new DataView(event.target.result);
+            var length = view.byteLength,
+                offset = 2;
 
-        if (view.getUint16(0, false) != 0xFFD8) return callback(-2);
-
-        var length = view.byteLength,
-            offset = 2;
-
-        while (offset < length) {
-            var marker = view.getUint16(offset, false);
-            offset += 2;
-
-            if (marker == 0xFFE1) {
-                if (view.getUint32(offset += 2, false) != 0x45786966) {
-                    return callback(-1);
-                }
-                var little = view.getUint16(offset += 6, false) == 0x4949;
-                offset += view.getUint32(offset + 4, little);
-                var tags = view.getUint16(offset, little);
+            while (offset < length) {
+                var marker = view.getUint16(offset, false);
                 offset += 2;
 
-                for (var i = 0; i < tags; i++)
-                    if (view.getUint16(offset + (i * 12), little) == 0x0112)
-                        return callback(view.getUint16(offset + (i * 12) + 8, little));
+                if (marker == 0xFFE1) {
+                    if (view.getUint32(offset += 2, false) != 0x45786966) {
+                        return callback(-1);
+                    }
+                    var little = view.getUint16(offset += 6, false) == 0x4949;
+                    offset += view.getUint32(offset + 4, little);
+                    var tags = view.getUint16(offset, little);
+                    offset += 2;
+
+                    for (var i = 0; i < tags; i++)
+                        if (view.getUint16(offset + (i * 12), little) == 0x0112)
+                            return callback(view.getUint16(offset + (i * 12) + 8, little));
+                }
+                else if ((marker & 0xFF00) != 0xFF00) break;
+                else offset += view.getUint16(offset, false);
             }
-            else if ((marker & 0xFF00) != 0xFF00) break;
-            else offset += view.getUint16(offset, false);
-        }
-        return callback(-1);
-    };
+            return callback(-1);
+        };
 
-    reader.readAsArrayBuffer(file.slice(0, 64 * 1024));
-}
+        reader.readAsArrayBuffer(file.slice(0, 64 * 1024));
+    }
 
-function resetOrientation(srcBase64, srcOrientation, callback) {
-    var img = new Image();
+    function resetOrientation(srcBase64, srcOrientation, callback) {
+        var img = new Image();
 
-    img.onload = function () {
-        var width = img.width,
-            height = img.height,
-            canvas = document.createElement('canvas'),
-            ctx = canvas.getContext("2d");
+        img.onload = function () {
+            var width = img.width,
+                height = img.height,
+                canvas = document.createElement('canvas'),
+                ctx = canvas.getContext("2d");
 
-        // set proper canvas dimensions before transform & export
-        if (4 < srcOrientation && srcOrientation < 9) {
-            canvas.width = height;
-            canvas.height = width;
-        } else {
-            canvas.width = width;
-            canvas.height = height;
-        }
+            // set proper canvas dimensions before transform & export
+            if (4 < srcOrientation && srcOrientation < 9) {
+                canvas.width = height;
+                canvas.height = width;
+            } else {
+                canvas.width = width;
+                canvas.height = height;
+            }
 
-        // transform context before drawing image
-        switch (srcOrientation) {
-            case 2:
-                ctx.transform(-1, 0, 0, 1, width, 0);
-                break;
-            case 3:
-                ctx.transform(-1, 0, 0, -1, width, height);
-                break;
-            case 4:
-                ctx.transform(1, 0, 0, -1, 0, height);
-                break;
-            case 5:
-                ctx.transform(0, 1, 1, 0, 0, 0);
-                break;
-            case 6:
-                ctx.transform(0, 1, -1, 0, height, 0);
-                break;
-            case 7:
-                ctx.transform(0, -1, -1, 0, height, width);
-                break;
-            case 8:
-                ctx.transform(0, -1, 1, 0, 0, width);
-                break;
-            default:
-                break;
-        }
+            // transform context before drawing image
+            switch (srcOrientation) {
+                case 2:
+                    ctx.transform(-1, 0, 0, 1, width, 0);
+                    break;
+                case 3:
+                    ctx.transform(-1, 0, 0, -1, width, height);
+                    break;
+                case 4:
+                    ctx.transform(1, 0, 0, -1, 0, height);
+                    break;
+                case 5:
+                    ctx.transform(0, 1, 1, 0, 0, 0);
+                    break;
+                case 6:
+                    ctx.transform(0, 1, -1, 0, height, 0);
+                    break;
+                case 7:
+                    ctx.transform(0, -1, -1, 0, height, width);
+                    break;
+                case 8:
+                    ctx.transform(0, -1, 1, 0, 0, width);
+                    break;
+                default:
+                    break;
+            }
 
-        // draw image
-        ctx.drawImage(img, 0, 0);
+            // draw image
+            ctx.drawImage(img, 0, 0);
 
-        // export base64
-        callback(canvas.toDataURL());
-    };
+            // export base64
+            callback(canvas.toDataURL());
+        };
 
-    img.src = srcBase64;
-}
+        img.src = srcBase64;
+    }
+
+});
 
 
 

@@ -9,4 +9,6 @@
     mysqli_query($db,$create_posts_table_sql);
     $create_messages_table_sql = "CREATE TABLE IF NOT EXISTS `network`.`messages` ( `id` INT NOT NULL AUTO_INCREMENT , `message` TEXT NOT NULL , `send_id` INT(5) NOT NULL , `get_id` INT(5) NOT NULL,`media` TEXT DEFAULT NULL,`seen` INT(1) NOT NULL DEFAULT '0',`time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (`id`))ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_unicode_ci;;";
     mysqli_query($db,$create_messages_table_sql);
+    $blocked_users_table_sql = "CREATE TABLE `network`.`blocked_users` ( `id` INT NOT NULL AUTO_INCREMENT , `blocked_by_user` INT NOT NULL , `blocked_user` INT NOT NULL , `date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;";
+    mysqli_query($db,$blocked_users_table_sql);
 ?>

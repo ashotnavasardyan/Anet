@@ -16,7 +16,8 @@ if (intval($_GET['user_id']) === intval($_SESSION['user_id'])) {
     header('Location:/chat.php');
     exit();
 }
-
+$user_blocked = check_for_blocked_user($_GET['user_id'])['blocked'];
+$blocked_by_user = (check_for_blocked_user($_GET['user_id'])['blocked_by_user']);
 ?>
 <body class="row">
 <div class="show_image_popup display_none animated"><span class="show_image_popup_close"><i><i
@@ -28,7 +29,7 @@ if (intval($_GET['user_id']) === intval($_SESSION['user_id'])) {
 <link rel="stylesheet" href="/css/animate.css">
 <link rel="stylesheet" href="/css/select2.min.css">
 <?php include 'left_menu.php'; ?>
-<div class="users_list col-lg-3 col-md-4 col-10">
+<div class="users_list col-lg-3 col-md-4 col-10 d-none d-lg-flex d-md-flex">
     <div class="user_search_area">
         <input type="text" id="user_search" name="user_search" placeholder="Search" title="Min 3 characters">
     </div>
@@ -39,7 +40,7 @@ if (intval($_GET['user_id']) === intval($_SESSION['user_id'])) {
         <div><img src="/svg/online.svg" alt="Online" class="online_icon icon" id="chat_online"></div>
     </div>
 </div>
-<div class="message_area col-lg-8 col-md-7 col-6" id="message_area">
+<div class="message_area col-lg-8 col-md-7 col-10" id="message_area">
     <?php
     if (isset($_GET['user_id']) && intval($_GET['user_id']) > 0) {
     $current_user = get_user_by_id($_GET['user_id']);
@@ -58,15 +59,13 @@ if (intval($_GET['user_id']) === intval($_SESSION['user_id'])) {
 
     ?>
     <div class="current_chat_info">
-        <div></div>
+        <div class="back_icon_div"><img src="/svg/back.svg" alt="Back" class="back_icon d-lg-none d-md-none"></div>
         <div class="user_name_header <?php echo $user_name_div_active ?>">
             <div class="<?php echo $user_name_active ?>"></div>
             <p class="people_online_info"><?php echo $current_user['name'] ?></p><span
                     class="user_inactive_time"><?php echo $user_inactive_time ?></span></div>
         <div class="chat_settings_icon">
-            <i class="fas fa-circle setting_circle"></i>
-            <i class="fas fa-circle setting_circle"></i>
-            <i class="fas fa-circle setting_circle"></i>
+            <img src="/svg/dots.svg" alt="Settings" class="settings_dots">
         </div>
     </div>
     <div id="message_content" class="message_content">
@@ -76,29 +75,38 @@ if (intval($_GET['user_id']) === intval($_SESSION['user_id'])) {
         }
         ?>
     </div>
-    <div class="text_box form-group row" <?php echo $text_box_style; ?>>
-        <div id="message_images"></div>
-        <div class="col-2 col-md-2 col-lg-1 send_box_icon_div">
-            <img src="/svg/plus.svg" alt="Plus" class="send_box_icon" id="add_file">
-            <input type="file" id="file_source"
-                   accept=".doc,.docx,.xls,.xlsx,.ppt,.txt,.pdf,.pptx,image/*,video/*,audio/*" multiple>
+    <?php if (!$user_blocked) {
+        echo "<div class=\"text_box form-group row\" $text_box_style>
+        <div id=\"message_images\"></div>
+        <div class=\"col-2 col-md-2 col-lg-1 send_box_icon_div\">
+            <img src=\"/svg/plus.svg\" alt=\"Plus\" class=\"send_box_icon\" id=\"add_file\">
+            <input type=\"file\" id=\"file_source\"
+                   accept=\".doc,.docx,.xls,.xlsx,.ppt,.txt,.pdf,.pptx,image/*,video/*,audio/*\" multiple>
         </div>
-        <div class="col-8 col-md-8 col-lg-10 text_box_div">
-            <textarea class="message_textarea col-12" placeholder="Write a message ..."></textarea>
+        <div class=\"col-8 col-md-8 col-lg-10 text_box_div\">
+            <textarea class=\"message_textarea col-12\" placeholder=\"Write a message ...\"></textarea>
         </div>
-        <!-- <div class="col-2 col-md-2 col-lg-1 send_box_icon_div"></div>-->
-        <div class="col-2 col-md-2 col-lg-1 send_box_icon_div">
-            <!-- <img src="/svg/smile.svg" alt="Smile" class="send_box_icon" id="add_smiles">-->
-            <img src="/svg/heart_button.svg" alt="Send" class="send_box_icon heart" id="send_message_heart">
-            <img src="/svg/send.svg" alt="Send" class="send_box_icon button display_none" id="send_message_button">
+        <!-- <div class=\"col-2 col-md-2 col-lg-1 send_box_icon_div\"></div>-->
+        <div class=\"col-2 col-md-2 col-lg-1 send_box_icon_div\">
+            <!-- <img src=\"/svg/smile.svg\" alt=\"Smile\" class=\"send_box_icon\" id=\"add_smiles\">-->
+            <img src=\"/svg/heart_button.svg\" alt=\"Send\" class=\"send_box_icon heart\" id=\"send_message_heart\">
+            <img src=\"/svg/send.svg\" alt=\"Send\" class=\"send_box_icon button display_none\" id=\"send_message_button\">
             <!--<p>Send</p>-->
         </div>
-        <input type="hidden" name="message_images_send">
-        <form action="database.php" method="post" enctype="multipart/form-data" id="message_form"></form>
-    </div>
+        <input type=\"hidden\" name=\"message_images_send\">
+        <form action=\"database.php\" method=\"post\" enctype=\"multipart/form-data\" id=\"message_form\"></form>
+    </div>";
+    } else {
+        echo "<div class=\"unavailable_user\">
+                <span>Chat is unavailable</span>
+              </div>";
+    }
+
+    ?>
+
 </div>
-<div class="settings_right_bar animated display_none col-lg-3 col-md-3 col-10">
-    <i class="fas fa-angle-right close_settings_right_bar"></i>
+<div class="settings_right_bar animated display_none col-lg-3 col-md-4 col-10">
+    <img src="/svg/back.svg" class="rotated_back_icon close_settings_right_bar">
     <div class="settings_user_image_name">
         <div class="settings_user_image_content">
             <div class="settings_user_image user_image_div"
@@ -126,11 +134,26 @@ if (intval($_GET['user_id']) === intval($_SESSION['user_id'])) {
                         <div class="settings_setting_name"><a
                                     href="/user.php?user=<?php echo $current_user['id'] ?>"><span>Show profile</span></a>
                         </div>
-                        <div class="settings_setting_icon"><img src="/svg/user.svg"></div>
                     </div>
-                    <div class="settings_list_item">
-                        <div class="settings_setting_name"><span>Block user</span></div>
-                        <div class="settings_setting_icon"><img src="/svg/message.svg"></div>
+                    <div class="settings_list_item block_user" id="submit_block_user_form">
+                        <div class="settings_setting_name">
+                            <?php
+                            $user_id_for_block = $current_user['id'];
+                            if ($user_blocked && in_array(strval($_SESSION['user_id']), $blocked_by_user)) {
+                                echo "<form action=\"database.php\" method=\"post\" id=\"block_user_form\">
+                                <input type=\"hidden\" name=\"blocked_user_id\" value=\"$user_id_for_block\">
+                                <input type=\"hidden\" name=\"unblock_user\" value=\"" . true . "\">
+                            </form>
+                            <span>Unblock user</span>";
+                            } else {
+                                echo "<form action=\"database.php\" method=\"post\" id=\"block_user_form\">
+                                <input type=\"hidden\" name=\"blocked_user_id\" value=\"$user_id_for_block\">
+                                <input type=\"hidden\" name=\"block_user\" value=\"" . true . "\">
+                            </form>
+                            <span>Block user</span>";
+                            }
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -150,26 +173,16 @@ if (intval($_GET['user_id']) === intval($_SESSION['user_id'])) {
              data-parent="#accordionExample">
             <div>
                 <div class="settings_shared_files">
-                    <div class="settings_shared_files_item_div">
-                        <div class="settings_shared_file_icon"><img src="/svg/file_dark.svg" alt=""></div>
-                        <div class="settings_shared_file_name"><a href="#" class="settings_shared_files_item">Any_word_file_1.doc</a>
-                        </div>
-                    </div>
-                    <div class="settings_shared_files_item_div">
-                        <div class="settings_shared_file_icon"><img src="/svg/audio_dark.svg" alt=""></div>
-                        <div class="settings_shared_file_name"><a href="#" class="settings_shared_files_item">Any_word_file_1.doc</a>
-                        </div>
-                    </div>
-                    <div class="settings_shared_files_item_div">
-                        <div class="settings_shared_file_icon"><img src="/svg/file_dark.svg" alt=""></div>
-                        <div class="settings_shared_file_name"><a href="#" class="settings_shared_files_item">Any_word_file_1.doc</a>
-                        </div>
-                    </div>
-                    <div class="settings_shared_files_item_div">
-                        <div class="settings_shared_file_icon"><img src="/svg/file_dark.svg" alt=""></div>
-                        <div class="settings_shared_file_name"><a href="#" class="settings_shared_files_item">Any_word_file_1.doc</a>
-                        </div>
-                    </div>
+                    <?php
+                    $files_result = settings_get_files(5, $_GET['user_id']);
+                    echo $files_result['content'];
+                    ?>
+                    <?php
+                    if ($files_result['see_more']) {
+                        echo "<div id=\"settings_load_new_files_div\"><span id=\"settings_load_new_files\">See more</span></div>";
+                    }
+
+                    ?>
                 </div>
             </div>
         </div>
@@ -189,20 +202,20 @@ if (intval($_GET['user_id']) === intval($_SESSION['user_id'])) {
          data-parent="#accordionExample">
         <div>
             <div class="settings_shared_photos row">
-                <div class="settings_shared_photos_item col-4"></div>
-                <div class="settings_shared_photos_item col-4"></div>
-                <div class="settings_shared_photos_item col-4"></div>
-                <div class="settings_shared_photos_item col-4"></div>
-                <div class="settings_shared_photos_item col-4"></div>
-                <div class="settings_shared_photos_item col-4"></div>
-                <div class="settings_shared_photos_item col-4"></div>
-                <div class="settings_shared_photos_item col-4"></div>
-                <div class="settings_shared_photos_item col-4"></div>
-                <div class="settings_shared_photos_item col-4"></div>
+
+                <?php
+                $photos_result = settings_get_photos(4, $_GET['user_id']);
+                echo $photos_result['content'];
+                ?>
             </div>
+            <?php
+            if ($photos_result['see_more']) {
+                echo "<div id=\"settings_load_new_photos_div\"><span id=\"settings_load_new_photos\">See more</span></div>";
+            }
+
+            ?>
         </div>
     </div>
-</div>
 </div>
 <script src="/js/jquery-3.3.1.min.js"></script>
 <script src="/js/select2.min.js"></script>

@@ -77,7 +77,7 @@ if ((((isset($_POST['message']) && strlen($_POST['message']) > 0) || count($_FIL
         foreach ($_FILES as $key => $file) {
             $counter++;
             $file['name'] = preg_replace("/[^a-zA-Z0-9,.]+/", "", $file['name']);
-            $file_name = basename(time() . $file['name']);
+            $file_name = basename('@@' . time() . '@@' . $file['name']);
             $file_name = str_replace('"', '', $file_name);
             $file_name = str_replace('\'', '', $file_name);
             $file_name = str_replace(' ', '_', $file_name);
@@ -236,6 +236,134 @@ if (isset($_POST['check_chat_new_message']) && $_POST['check_chat_new_message'])
     }
 }
 
+if (isset($_POST['load_new_files']) && $_POST['load_new_files']) {
+    $last_ms_id = intval($_POST['last_ms_id']);
+    $user_id = intval($_POST['user_id']);
+    $content = settings_get_files(5, $user_id, $last_ms_id);
+    if (empty($content['content'])) {
+        echo json_encode(['content' => false, 'see_more' => false]);
+        return false;
+    }
+    echo json_encode($content);
+}
+
+if (isset($_POST['load_new_photos']) && $_POST['load_new_photos']) {
+    $last_ms_id = intval($_POST['last_ms_id']);
+    $user_id = intval($_POST['user_id']);
+    $content = settings_get_photos(5, $user_id, $last_ms_id);
+    if (empty($content['content'])) {
+        echo json_encode(['content' => false, 'see_more' => false]);
+        return false;
+    }
+    echo json_encode($content);
+}
+
+if (isset($_POST['see_all_ms']) && $_POST['see_all_ms']) {
+    see_all_ms(intval($_POST['send_id']));
+}
+
+if((isset($_POST['block_user']) && $_POST['block_user']) || (isset($_POST['unblock_user']) && $_POST['unblock_user'])){
+    $db = new mysqli('localhost','root','','network');
+    $blocked_by_user = intval($_SESSION['user_id']);
+    $blocked_user = intval($_POST['blocked_user_id']);
+    if(isset($_POST['block_user']) && $_POST['block_user']){
+        $block_user_sql = "INSERT INTO `blocked_users` (`id`, `blocked_by_user`, `blocked_user`, `date`) VALUES (NULL, $blocked_by_user, $blocked_user, CURRENT_TIMESTAMP);";
+    }else{
+        $block_user_sql = "DELETE FROM `blocked_users` WHERE `blocked_user`=$blocked_user AND `blocked_by_user`=$blocked_by_user";
+    }
+    $db->query($block_user_sql);
+    header('Location:chat.php?user_id='.$blocked_user.'');
+    exit();
+}
+
+function check_for_blocked_user($user_id){
+    $db = new mysqli('localhost','root','','network');
+    $user_id = intval($user_id);
+    $current_user = intval($_SESSION['user_id']);
+    $check_for_blocked_user_sql = "SELECT `blocked_by_user` FROM `blocked_users` WHERE `blocked_user`=$user_id AND `blocked_by_user`=$current_user OR `blocked_user`=$current_user AND `blocked_by_user`=$user_id";
+    $blocked_result = $db->query($check_for_blocked_user_sql);
+    $blocked = false;
+    $blocked_by_user = [];
+    if($blocked_result->num_rows > 0){
+        $blocked = true;
+        while ($blocked_by = mysqli_fetch_assoc($blocked_result)){
+            array_push($blocked_by_user,$blocked_by['blocked_by_user']);
+        }
+    }
+    return ['blocked'=>$blocked,'blocked_by_user'=>$blocked_by_user];
+}
+
+function settings_get_photos($photos_count, $chat_user, $last_photo_message_id = 0)
+{
+    $db = new mysqli('localhost', 'root', '', 'network');
+    $current_user = intval($_SESSION['user_id']);
+    $id_filter = ($last_photo_message_id > 0) ? "AND `id`<$last_photo_message_id" : "";
+    $settings_get_photos_sql = "SELECT `id`,`media` FROM `messages` WHERE (`send_id`=$chat_user AND `get_id`=$current_user OR `get_id`=$chat_user AND `send_id`=$current_user) AND  (`media` != '' AND `media` LIKE '%;;image%' OR `media` LIKE '%;;video%') $id_filter ORDER BY `id` DESC LIMIT $photos_count";
+    $get_min_id = "SELECT MIN(`id`) AS `id` FROM `messages` WHERE (`send_id`=$chat_user AND `get_id`=$current_user OR `get_id`=$chat_user AND `send_id`=$current_user) AND  (`media` != '' AND `media` LIKE '%;;image%' OR `media` LIKE '%;;video%')";
+    $photo_results = $db->query($settings_get_photos_sql);
+    $min_id = intval(mysqli_fetch_assoc($db->query($get_min_id))['id']);
+    $photos_html = '';
+    $see_more = false;
+    $last_id = 0;
+    if ($photo_results && $photo_results->num_rows > 0) {
+        while ($photos_pack = mysqli_fetch_assoc($photo_results)) {
+            $photos_array = explode('::', $photos_pack['media']);
+            foreach ($photos_array as $photo) {
+                $photo = explode(';;', $photo);
+                if ($photo[1] === 'image') {
+                    $photos_html .= "<div class=\"settings_shared_photos_item photo_item col-4\" style=\"background-image: url('media/" . $photo[0] . "')\" data-message-id='" . $photos_pack['id'] . "'></div>";
+                } elseif ($photo[1] === 'video') {
+                    $photos_html .= "<div class=\"settings_shared_photos_item video_item col-4\" data-message-id='" . $photos_pack['id'] . "'><video><source src='media/" . $photo[0] . "#t=1'>Your browser does not support the video.</video></div>";
+                }
+            }
+            $last_id = intval($photos_pack['id']);
+        }
+        if ($last_id !== $min_id) {
+            $see_more = true;
+        }
+        return ['content' => $photos_html, 'see_more' => $see_more];
+    }
+    return ['content' => $photos_html, 'see_more' => $see_more];
+}
+
+
+function settings_get_files($files_count, $chat_user, $last_file_message_id = 0)
+{
+    $db = new mysqli('localhost', 'root', '', 'network');
+    $current_user = intval($_SESSION['user_id']);
+    $id_filter = ($last_file_message_id > 0) ? "AND `id`<$last_file_message_id" : "";
+    $settings_get_files_sql = "SELECT `id`,`media` FROM `messages` WHERE (`send_id`=$chat_user AND `get_id`=$current_user OR `get_id`=$chat_user AND `send_id`=$current_user) AND  (`media` != '' AND `media` LIKE '%;;application%' OR `media` LIKE '%;;audio%') $id_filter ORDER BY `id` DESC LIMIT $files_count ";
+    $get_min_id = "SELECT MIN(`id`) AS `id` FROM `messages` WHERE (`send_id`=$chat_user AND `get_id`=$current_user OR `get_id`=$chat_user AND `send_id`=$current_user) AND  (`media` != '' AND `media` LIKE '%;;application%' OR `media` LIKE '%;;audio%')";
+    $files_results = $db->query($settings_get_files_sql);
+    $min_id = intval(mysqli_fetch_assoc($db->query($get_min_id))['id']);
+    $files_html = '';
+    $see_more = false;
+    $last_id = 0;
+    if ($files_results && $files_results->num_rows > 0) {
+        while ($files_pack = mysqli_fetch_assoc($files_results)) {
+            $files_array = explode('::', $files_pack['media']);
+            foreach ($files_array as $file) {
+                $file = explode(';;', $file);
+                if ($file[1] === 'application' || $file[1] === 'audio') {
+                    $file_icon = ($file[1] === 'application') ? "file_dark.svg" : "audio_dark.svg";
+                    $file_name = substr($file[0], strripos($file[0], '@@') + 2, strlen($file[0]));
+                    $files_html .= "<div class=\"settings_shared_files_item_div\" data-message-id='" . $files_pack['id'] . "'>
+                        <div class=\"settings_shared_file_icon\"><img src=\"/svg/" . $file_icon . "\" alt=\"\"></div>
+                        <div class=\"settings_shared_file_name\"><a href=\"/media/" . $file[0] . "\" class=\"settings_shared_files_item\" download='$file_name'>" . substr($file_name, 0, 100) . "</a>
+                        </div>
+                    </div>";
+                }
+            }
+            $last_id = intval($files_pack['id']);
+        }
+        if ($last_id !== $min_id) {
+            $see_more = true;
+        }
+        return ['content' => $files_html, 'see_more' => $see_more];
+    }
+    return ['content' => $files_html, 'see_more' => $see_more];
+}
+
 function get_message_by_id($message_id)
 {
     $db = new mysqli('localhost', 'root', '', 'network');
@@ -317,7 +445,7 @@ function get_message_html($messages = false, $reverse = false, $last_ms_id = fal
                 $opened_tag = true;
             } else {
                 $user = get_user_by_id($message['send_id']);
-                $message_html .= "<div class=\"get_message\"><div><div class='user_image_div message_user_image' style=\"background: url('" .'media/'. $user['image'] . "')\"></div></div><div class='get_message_content'>";
+                $message_html .= "<div class=\"get_message\"><div><div class='user_image_div message_user_image' style=\"background: url('" . 'media/' . $user['image'] . "')\"></div></div><div class='get_message_content'>";
                 $opened_get_tag = true;
                 $opened_tag = true;
             }
@@ -344,10 +472,10 @@ function get_message_html($messages = false, $reverse = false, $last_ms_id = fal
             } else {
                 $message_date = date('j.m.y', strtotime($message['time']));
             }
-            if($opened_send_tag){
+            if ($opened_send_tag) {
                 $message_html .= "</div><div class='message_date col-12'><p>" . $message_date . "</p></div><div class=\"send_message\">";
-            }elseif($opened_get_tag){
-                $message_html .= "</div></div><div class='message_date col-12'><p>" . $message_date . "</p></div><div class=\"get_message\"><div><div class='user_image_div message_user_image' style=\"background: url('" .'media/'. $user['image'] . "')\"></div></div><div class='get_message_content'>";
+            } elseif ($opened_get_tag) {
+                $message_html .= "</div></div><div class='message_date col-12'><p>" . $message_date . "</p></div><div class=\"get_message\"><div><div class='user_image_div message_user_image' style=\"background: url('" . 'media/' . $user['image'] . "')\"></div></div><div class='get_message_content'>";
             }
 
             $message_counter = 0;
@@ -375,7 +503,7 @@ function get_message_html($messages = false, $reverse = false, $last_ms_id = fal
             $add_attribute = true;
             $message_html .= "<div class=\"message_video_div media_item col-lg-7 col-12\" $check_set_attribute>";
             foreach ($message_video as $video) {
-                $message_html .= "<video controls><source src='media/" . $video . "'>Your browser does not support the video.</video>";
+                $message_html .= "<video controls><source src='media/" . $video . "#t=1'>Your browser does not support the video.</video>";
             }
             $message_html .= "</div>";
         }
@@ -394,12 +522,14 @@ function get_message_html($messages = false, $reverse = false, $last_ms_id = fal
         if (!empty($message_application)) {
             $check_set_attribute = ($add_attribute) ? '' : "data-message-id='" . $message['id'] . "'";
             $add_attribute = true;
-            $message_html .= "<div class=\"message_application_div media_item col-lg-7 col-12\" $check_set_attribute>";
-
             foreach ($message_application as $application) {
-                $message_html .= "<a href='media/$application' download><span><i class=\"fa fa-cloud-download-alt\"></i>" . substr($application, 0, 20) . "...</span></a>";
+                $message_html .= "<div class=\"message_application_div media_item col-lg-7 col-12\" $check_set_attribute>";
+
+                $application_name = substr($application, strripos($application, '@@') + 2, strlen($application));
+                $message_html .= "<a href='media/$application' download='$application_name'><span><i class=\"fa fa-cloud-download-alt\"></i>" . substr($application_name, 0, 50) . "</span></a>";
+                $message_html .= "</div>";
+
             }
-            $message_html .= "</div>";
 
         }
 
@@ -424,10 +554,6 @@ function get_message_html($messages = false, $reverse = false, $last_ms_id = fal
 
     }
     return $message_html;
-}
-
-if (isset($_POST['see_all_ms']) && $_POST['see_all_ms']) {
-    see_all_ms(intval($_POST['send_id']));
 }
 
 function get_online_users()

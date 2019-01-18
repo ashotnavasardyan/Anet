@@ -437,10 +437,6 @@ input[name="approve_password"]:focus, input[name="password"]:focus, input[name="
     font-weight: 400;
 }
 
-.user_search_area {
-    background: #4507ca;
-}
-
 #message_content {
     flex-grow: 2;
 }
@@ -702,35 +698,35 @@ div.main_content, div.left_menu {
 }
 
 /* width */
-.feed_content::-webkit-scrollbar, .single_post::-webkit-scrollbar, .main_content::-webkit-scrollbar, .chat_users::-webkit-scrollbar, .message_textarea::-webkit-scrollbar, #message_images::-webkit-scrollbar, .settings_right_bar::-webkit-scrollbar {
+.feed_content::-webkit-scrollbar, .single_post::-webkit-scrollbar, .main_content::-webkit-scrollbar, .chat_users::-webkit-scrollbar, .message_textarea::-webkit-scrollbar, #message_images::-webkit-scrollbar, .settings_right_bar::-webkit-scrollbar ,#settings_shared_files::-webkit-scrollbar{
     width: 5px;
     height: 5px;
 }
 
 /* Track */
-.feed_content::-webkit-scrollbar-track, .single_post::-webkit-scrollbar-track, .main_content::-webkit-scrollbar-track, .chat_users::-webkit-scrollbar-track, .message_textarea::-webkit-scrollbar-track, #message_images::-webkit-scrollbar-track, .settings_right_bar::-webkit-scrollbar-track {
+.feed_content::-webkit-scrollbar-track, .single_post::-webkit-scrollbar-track, .main_content::-webkit-scrollbar-track, .chat_users::-webkit-scrollbar-track, .message_textarea::-webkit-scrollbar-track, #message_images::-webkit-scrollbar-track, .settings_right_bar::-webkit-scrollbar-track ,#settings_shared_files::-webkit-scrollbar-track{
     background: transparent !important;
 }
 
 /* Handle */
-.feed_content::-webkit-scrollbar-thumb, .single_post::-webkit-scrollbar-thumb, .main_content::-webkit-scrollbar-thumb, .message_textarea::-webkit-scrollbar-thumb, #message_content::-webkit-scrollbar-thumb, #message_images::-webkit-scrollbar-thumb {
+.feed_content::-webkit-scrollbar-thumb, .single_post::-webkit-scrollbar-thumb, .main_content::-webkit-scrollbar-thumb, .message_textarea::-webkit-scrollbar-thumb, #message_images::-webkit-scrollbar-thumb {
     /*background: #253240 !important;*/
 }
 
 /* Handle on hover */
-.feed_content::-webkit-scrollbar-thumb:hover, .single_post::-webkit-scrollbar-thumb:hover, .main_content::-webkit-scrollbar-thumb:hover, .chat_users::-webkit-scrollbar-thumb:hover, .message_textarea::-webkit-scrollbar-thumb:hover, .settings_right_bar::-webkit-scrollbar-thumb:hover {
+.feed_content::-webkit-scrollbar-thumb:hover, .single_post::-webkit-scrollbar-thumb:hover, .main_content::-webkit-scrollbar-thumb:hover, .chat_users::-webkit-scrollbar-thumb:hover, .message_textarea::-webkit-scrollbar-thumb:hover, .settings_right_bar::-webkit-scrollbar-thumb:hover ,#settings_shared_files::-webkit-scrollbar-thumb:hover{
     background: rgba(37, 50, 64, 0.3) !important;
 }
 
-#message_content::-webkit-scrollbar-track:hover, #message_images::-webkit-scrollbar-track:hover, .settings_right_bar::-webkit-scrollbar-track:hover {
+#message_content::-webkit-scrollbar-track:hover, #message_images::-webkit-scrollbar-track:hover, .settings_right_bar::-webkit-scrollbar-track:hover ,#settings_shared_files::-webkit-scrollbar-track:hover ,#settings_shared_photos::-webkit-scrollbar-track:hover{
     background: rgba(37, 50, 64, 0.3) !important;
 }
 
-.settings_right_bar::-webkit-scrollbar-thumb {
+.settings_right_bar::-webkit-scrollbar-thumb ,#settings_shared_files::-webkit-scrollbar-thumb,#settings_shared_photos::-webkit-scrollbar-thumb,#message_content::-webkit-scrollbar-thumb{
     background: #253240 !important;
 }
 
-.settings_right_bar::-webkit-scrollbar-thumb:hover {
+.settings_right_bar::-webkit-scrollbar-thumb:hover,#settings_shared_files::-webkit-scrollbar-thumb:hover,#settings_shared_photoss::-webkit-scrollbar-thumb:hover {
     background: #253240 !important;
 }
 
@@ -866,12 +862,12 @@ div.main_content, div.left_menu {
 }
 
 .chat_settings_icon {
-    padding: 5px 5px 0 0;
+    padding: 6px 8px 6px 0;
 }
 
 .setting_circle {
     font-size: 6px;
-    color: #acbfd5;
+    color: #314050;
 }
 
 .send_box_icon {
@@ -884,6 +880,10 @@ div.main_content, div.left_menu {
 
 .textarea_div {
     height: 42px;
+}
+
+.rotated_back_icon{
+    transform: rotate(180deg);
 }
 
 textarea::-webkit-input-placeholder {
@@ -1369,8 +1369,8 @@ textarea:-ms-input-placeholder {
 }
 
 .settings_user_image {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     border: 1px solid #ebebeb;
 }
 
@@ -1380,7 +1380,7 @@ textarea:-ms-input-placeholder {
 }
 
 .settings_user_setting_name p {
-    font-weight: 700;
+    font-weight: 600;
     text-align: center;
 }
 
@@ -1400,7 +1400,15 @@ textarea:-ms-input-placeholder {
 
 .settings_list_item:hover {
     cursor: pointer;
-    color: #578ec9;
+}
+
+.settings_list_item:hover a{
+    color: #212529;
+}
+
+.settings_list_item.block_user{
+    color: red;
+    font-weight: 600;
 }
 
 .settings_setting_name {
@@ -1450,8 +1458,15 @@ textarea:-ms-input-placeholder {
     text-decoration: #578ec9;
 }
 
-.settings_shared_file_icon {
+.settings_shared_files{
+    word-break: break-all;
+}
+
+.settings_shared_file_icon img{
     width: 15px;
+}
+
+.settings_shared_file_icon {
     margin-right: 5px;
 }
 
@@ -1465,23 +1480,27 @@ textarea:-ms-input-placeholder {
 }
 
 .settings_shared_photos_item {
-    background: url('/media/1547189370the-php-practitioner.jpg');
     background-size: cover;
     background-position: 50%;
     height: 100px;
-    border: 2px solid white;
+    border: 1px solid white;
     background-color: #b5bbb9;
+    padding: 0;
+}
+
+.settings_shared_photos_item video{
+    width: 100%;
+    height: 100%;
 }
 
 .close_settings_right_bar{
     color: #314050;
-    font-size: 25px;
     position: absolute;
-    top: 5px;
-    left: 10px;
+    width: 25px;
+    height: 25px;
 }
 
-.close_settings_right_bar:hover{
+.close_settings_right_bar:hover,.settings_shared_photos_item:hover{
     cursor: pointer;
 }
 
@@ -1492,6 +1511,11 @@ textarea:-ms-input-placeholder {
     background: rgba(0,0,0,.8);
     z-index: 999;
 
+}
+
+.popup_image_container video{
+    width: 100%;
+    height: 100%;
 }
 
 .show_image_popup_close{
@@ -1521,6 +1545,49 @@ textarea:-ms-input-placeholder {
     background-size: contain;
 }
 
+#settings_shared_files{
+    max-height: 300px;
+    overflow: auto;
+}
+
+#settings_load_new_files_div,#settings_load_new_photos_div{
+    text-align: center;
+}
+
+#settings_load_new_files_div:hover,#settings_load_new_photos_div:hover{
+    cursor: pointer;
+}
+
+#settings_load_new_files_div:hover > span,#settings_load_new_photos_div:hover > span{
+    text-decoration: underline;
+}
+
+#settings_load_new_files,#settings_load_new_photos{
+    color: #578ec9;
+}
+
+.unavailable_user{
+    background: #578ec9;
+    color: white;
+    text-align: center;
+}
+
+.back_icon_div{
+    padding: 7px;
+}
+
+.back_icon{
+    width: 12px;
+}
+
+.back_icon:hover{
+    cursor: pointer;
+}
+
+
+.settings_dots{
+    width: 30px;
+}
 @media (min-width: 768px) {
     .feed_item_main_div {
         margin: auto;
@@ -1560,7 +1627,7 @@ textarea:-ms-input-placeholder {
 
 @media (max-width: 767px) {
     .message_area {
-        display: none;
+        /*display: none;*/
     }
 
     .get_message, .send_message {
