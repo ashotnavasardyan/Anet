@@ -195,8 +195,10 @@ jQuery(document).ready(function () {
         if (files_count > 0 && files_size > 104857600) {
             swal("Your media content is too big!", "Max: 105MB", "warning");
             return false;
+        }else if(files_count >= 20){
+            swal("Your media content is too big!", "Max file length: 25", "warning");
+            return false;
         }
-
         if (files_count > 0 || message.length || $(this).hasClass('heart')) {
             fileArray.append('message', message);
             fileArray.append('send_message', true);
@@ -209,6 +211,9 @@ jQuery(document).ready(function () {
             $(document).find('.message_textarea').val('');
             $(document).find('#message_images').empty();
             $(document).find('#style_for_images').empty();
+            $('#message_content').append($('#message_loader'));
+            $('#message_loader').removeClass('display_none');
+            $('.message_loader_item').css('height',$('.message_loader_item').css('width'));
             xhr.open('POST', 'database.php', true);
             xhr.onload = function (response) {
                 if (xhr.readyState === 4) {
@@ -232,6 +237,8 @@ jQuery(document).ready(function () {
                             refresh_message_style();
                             remove_empty_divs();
                             fileArray = new FormData();
+                            body.prepend($('#message_loader'));
+                            $('#message_loader').addClass('display_none');
                         }
                     } else {
                         console.error(xhr.statusText);
