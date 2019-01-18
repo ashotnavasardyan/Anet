@@ -73,9 +73,6 @@ $blocked_by_user = (check_for_blocked_user($_GET['user_id'])['blocked_by_user'])
         get_messages_by_packet(20, $_GET['user_id']);
         }
         ?>
-        <div id="message_loader" class="message_images_div message_loader_div col-lg-5">
-            <div class="message_image_item message_loader_item col-4"><img src="/images/loading.gif" alt="loading..."></div>
-        </div>
     </div>
     <?php if (!$user_blocked) {
         echo "<div class=\"text_box form-group row\" $text_box_style>
