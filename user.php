@@ -1,6 +1,7 @@
 <?php
 // Some test comment
 // Another cooment
+// Update for the second feature
 include 'header.php';
 $user = get_user_by_id($_GET['user']);
 if (isset($_COOKIE['user_update_complete'])) {
